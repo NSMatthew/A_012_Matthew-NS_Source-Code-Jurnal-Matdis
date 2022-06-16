@@ -1,0 +1,76 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define inf 999
+#define vertex 5
+
+void HasilMatriks(float distance[vertex][vertex]);
+
+void floydwarshall(float graph[vertex][vertex]){
+	int i,j,k;
+	float distance[vertex][vertex];
+	
+	for(i=0; i<vertex; i++)
+	{
+		for(j=0; j<vertex; j++)
+		{
+			distance[i][j] = graph[i][j];
+		}
+	}
+	
+		for(k=0; k<vertex; k++)
+		{
+		for(i=0; i<vertex; i++)
+		{
+			for(j=0; j<vertex; j++)
+			{	
+				if(distance[i][j] > (distance[i][k]+distance[k][j]))
+				{
+					distance[i][j] = distance[i][k]+distance[k][j];
+				}
+				
+			
+			}
+		}
+	}
+	
+	HasilMatriks(distance);
+	
+}
+
+void HasilMatriks(float distance[vertex][vertex]){
+	
+	for(int i=0; i<vertex; i++)
+	{
+		for(int j=0; j<vertex; j++)
+		{
+			if(distance[i][j]==inf)
+			{
+				printf("%5s","inf");
+			}else{
+				printf("%5.2f",distance[i][j]);
+			}
+		}
+		printf("\n");
+	}
+}
+
+int main(){
+	printf("Program Mencari Bank Sampah Terdekat di Bali Menggunakan Algoritma Floyd Warshall\n\n");
+	char awal[50];
+	char tujuan[50];
+	
+	printf("Masukkan Lokasi Keberangkatan : ");
+	fflush(stdin);
+	gets(awal);
+	printf("Masukkan Lokasi Tujuan : ");
+	fflush(stdin);
+	gets(tujuan);
+	
+	printf("Jalur Terpendek Dalam Bentuk Matriks : \n");
+	float graph[vertex][vertex] = {{0, 2.4, 0.9, inf, inf }, {inf, 0, inf, 3.4, 9.5}, 
+								{inf, inf, 0, inf, 9.7}, {inf, inf, inf, 0, 5.7},
+								{inf, inf, inf, inf, 0}};
+	
+	floydwarshall(graph);
+}
